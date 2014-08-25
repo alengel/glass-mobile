@@ -3,7 +3,7 @@ package com.brandwatch.glassmobile.bluetooth;
 import java.io.IOException;
 import java.util.UUID;
 
-import com.brandwatch.glassmobile.utils.PropertiesManager;
+import com.glass.brandwatch.utils.PropertiesManager;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -18,7 +18,7 @@ import android.util.Log;
 
 public class BluetoothService extends Service implements
 		BluetoothConnectionTask.BluetoothConnectionTaskCallbacks,
-		HandleBrandwatchDataRequestBluetoothTask.BluetoothSocketHandlerCallbacks {
+		IncomingRequestBluetoothTask.BluetoothSocketHandlerCallbacks {
 
 	public static final String TAG = BluetoothService.class.getSimpleName();
 	
@@ -27,7 +27,7 @@ public class BluetoothService extends Service implements
 	private BluetoothAdapter bluetoothAdapter;
 	private BluetoothServerSocket serverSocket;
 	private BluetoothConnectionTask bluetoothConnectionTask;
-	private HandleBrandwatchDataRequestBluetoothTask handleBrandwatchDataRequestTask;
+	private IncomingRequestBluetoothTask handleBrandwatchDataRequestTask;
 	
 	private final BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
@@ -112,7 +112,7 @@ public class BluetoothService extends Service implements
 
 	@Override
 	public void onConnectionSuccessful(BluetoothSocket socket) {
-		handleBrandwatchDataRequestTask = new HandleBrandwatchDataRequestBluetoothTask(socket, this);
+		handleBrandwatchDataRequestTask = new IncomingRequestBluetoothTask(socket, this);
 		handleBrandwatchDataRequestTask.execute();
 	}
 
