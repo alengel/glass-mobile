@@ -13,15 +13,15 @@ import android.util.Log;
 
 import com.brandwatch.glassmobile.data.BrandwatchData;
 import com.brandwatch.glassmobile.data.Semantics3Data;
-import com.brandwatch.glassmobile.utils.PropertiesManager;
-import com.brandwatch.glassmobile.utils.StreamUtils;
+import com.glass.brandwatch_shared.utils.PropertiesManager;
+import com.glass.brandwatch_shared.utils.StreamUtils;
 
-public class HandleBrandwatchDataRequestBluetoothTask extends AsyncTask<Void, Void, String> {
-	private static final String TAG = HandleBrandwatchDataRequestBluetoothTask.class.getSimpleName();
+public class IncomingRequestBluetoothTask extends AsyncTask<Void, Void, String> {
+	private static final String TAG = IncomingRequestBluetoothTask.class.getSimpleName();
 	private BluetoothSocket socket;
 	private BluetoothSocketHandlerCallbacks callbacks;
 
-	public HandleBrandwatchDataRequestBluetoothTask(BluetoothSocket socket,
+	public IncomingRequestBluetoothTask(BluetoothSocket socket,
 			BluetoothSocketHandlerCallbacks callbacks) {
 		this.socket = socket;
 		this.callbacks = callbacks;
@@ -35,17 +35,18 @@ public class HandleBrandwatchDataRequestBluetoothTask extends AsyncTask<Void, Vo
 			outputStream = socket.getOutputStream();
 			inputStream = socket.getInputStream();
 
-			ArrayList<String> resultsArray = getBrandData(StreamUtils.readFromSocket(inputStream));
-			
+			ArrayList<String> resultsArray = getBrandData(StreamUtils
+					.readStringFromSocket(inputStream));
+
 			// Serialise and send data to Glass
 			byte[] results = SerializationUtils.serialize(resultsArray);
 			StreamUtils.writeToSocket(outputStream, results);
-			
+
 			// Wait for glass to acknowledge receiving the data
-			if(StreamUtils.readFromSocket(inputStream) != "completed"){
+			if (StreamUtils.readStringFromSocket(inputStream) != "completed") {
 				Log.w(TAG, "Connection with Glass didn't terminate correctly.");
 			}
-			
+
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage());
 		}

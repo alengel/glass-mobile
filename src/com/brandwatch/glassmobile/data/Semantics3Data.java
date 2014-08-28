@@ -2,24 +2,27 @@ package com.brandwatch.glassmobile.data;
 
 import android.util.Log;
 
-import com.brandwatch.glassmobile.utils.PropertiesManager;
+import com.glass.brandwatch_shared.utils.PropertiesManager;
 import com.semantics3.api.Products;
 
 public class Semantics3Data {
-	private static String TAG = "Semantics3Data";
+	private static final String TAG = Semantics3Data.class.getSimpleName();
 
 	public static String getData(String query) {
-		Log.i(TAG, String.format("Requesting features data for query '%s'", query));
 
-		// Get authentication keys for Semantics3
+		Log.i(TAG, "Measurement " + String.format("Requesting features data for query '%s'", query));
+
 		Products products = new Products(PropertiesManager.getProperty("semantics3_key"),
 				PropertiesManager.getProperty("semantics3_secret"));
 
-		// Make request to the search API, passing the query as parameter
 		products.productsField("search", query);
 
 		try {
-			return products.getProducts().toString();
+			String data = products.getProducts().toString();
+
+			Log.i(TAG, "Measurement " + "Receiving features");
+
+			return data;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

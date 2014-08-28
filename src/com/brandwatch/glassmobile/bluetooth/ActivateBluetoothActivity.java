@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.glass.brandwatch.R;
+import com.brandwatch.glassmobile.R;
 
 public class ActivateBluetoothActivity extends Activity {
 	static final private String TAG = ActivateBluetoothActivity.class.getSimpleName();

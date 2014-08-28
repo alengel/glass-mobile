@@ -10,7 +10,6 @@ import android.util.Log;
 public class BluetoothConnectionTask extends AsyncTask<Void, Void, BluetoothSocket> {
 	private static final String TAG = BluetoothConnectionTask.class.getSimpleName();
 
-
 	private BluetoothServerSocket serverSocket;
 	private BluetoothConnectionTaskCallbacks callbacks;
 
