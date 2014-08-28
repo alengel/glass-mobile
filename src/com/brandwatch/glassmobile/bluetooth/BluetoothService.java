@@ -3,8 +3,6 @@ package com.brandwatch.glassmobile.bluetooth;
 import java.io.IOException;
 import java.util.UUID;
 
-import com.glass.brandwatch.utils.PropertiesManager;
-
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
@@ -16,24 +14,26 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.glass.brandwatch_shared.utils.PropertiesManager;
+
 public class BluetoothService extends Service implements
 		BluetoothConnectionTask.BluetoothConnectionTaskCallbacks,
 		IncomingRequestBluetoothTask.BluetoothSocketHandlerCallbacks {
 
 	public static final String TAG = BluetoothService.class.getSimpleName();
-	
+
 	public static final String NAME = "BRANDWATCH_GLASSWARE";
 
 	private BluetoothAdapter bluetoothAdapter;
 	private BluetoothServerSocket serverSocket;
 	private BluetoothConnectionTask bluetoothConnectionTask;
 	private IncomingRequestBluetoothTask handleBrandwatchDataRequestTask;
-	
+
 	private final BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			final String action = intent.getAction();
-			
+
 			// React to state changes of the bluetooth adapter
 			if (action != null && action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
 				final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
@@ -96,11 +96,12 @@ public class BluetoothService extends Service implements
 				// Create a bluetooth server socket
 				try {
 					UUID uuid = UUID.fromString(PropertiesManager.getProperty("bluetooth_uuid"));
-					serverSocket = bluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(NAME, uuid);
+					serverSocket = bluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(
+							NAME, uuid);
 				} catch (IOException e) {
 					Log.e(TAG, e.getMessage());
 				}
-				
+
 				// Wait Glass to connect to the socket
 				bluetoothConnectionTask = new BluetoothConnectionTask(serverSocket, this);
 				bluetoothConnectionTask.execute();

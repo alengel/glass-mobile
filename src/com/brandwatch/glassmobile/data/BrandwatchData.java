@@ -7,9 +7,9 @@ import org.apache.http.util.EntityUtils;
 
 import android.util.Log;
 
-import com.glass.brandwatch.utils.DateHelper;
-import com.glass.brandwatch.utils.HttpRequest;
-import com.glass.brandwatch.utils.PropertiesManager;
+import com.glass.brandwatch_shared.utils.DateHelper;
+import com.glass.brandwatch_shared.utils.HttpRequest;
+import com.glass.brandwatch_shared.utils.PropertiesManager;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -25,31 +25,34 @@ public class BrandwatchData {
 		String data = getData(queryUrl);
 		JsonObject results = getResults(data);
 		String resultsString = results.get("id").toString();
-		
+
 		Log.i(TAG, "Measurement " + "Received queryId");
-		
+
 		return resultsString;
 	}
 
 	public static String getSentimentData(String url, String queryId) {
-		Log.i(TAG, "Measurement " + String.format("Requesting sentiment data for queryId '%s'", queryId));
+		Log.i(TAG,
+				"Measurement "
+						+ String.format("Requesting sentiment data for queryId '%s'", queryId));
 
 		String sentimentUrl = buildSentimentUrl(url, queryId);
 		String data = getData(sentimentUrl);
-		
+
 		Log.i(TAG, "Measurement " + "Receiving sentiment");
-		
+
 		return data;
 	}
 
 	public static String getTopicsData(String url, String queryId) {
-		Log.i(TAG, "Measurement " + String.format("Requesting topics data for queryId '%s'", queryId));
+		Log.i(TAG,
+				"Measurement " + String.format("Requesting topics data for queryId '%s'", queryId));
 
 		String topicstUrl = buildTopicsUrl(url, queryId);
 		String data = getData(topicstUrl);
-		
+
 		Log.i(TAG, "Measurement " + "Receiving topics");
-		
+
 		return data;
 	}
 

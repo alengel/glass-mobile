@@ -13,8 +13,8 @@ import android.util.Log;
 
 import com.brandwatch.glassmobile.data.BrandwatchData;
 import com.brandwatch.glassmobile.data.Semantics3Data;
-import com.glass.brandwatch.utils.PropertiesManager;
-import com.glass.brandwatch.utils.StreamUtils;
+import com.glass.brandwatch_shared.utils.PropertiesManager;
+import com.glass.brandwatch_shared.utils.StreamUtils;
 
 public class IncomingRequestBluetoothTask extends AsyncTask<Void, Void, String> {
 	private static final String TAG = IncomingRequestBluetoothTask.class.getSimpleName();
@@ -35,17 +35,18 @@ public class IncomingRequestBluetoothTask extends AsyncTask<Void, Void, String> 
 			outputStream = socket.getOutputStream();
 			inputStream = socket.getInputStream();
 
-			ArrayList<String> resultsArray = getBrandData(StreamUtils.readStringFromSocket(inputStream));
-			
+			ArrayList<String> resultsArray = getBrandData(StreamUtils
+					.readStringFromSocket(inputStream));
+
 			// Serialise and send data to Glass
 			byte[] results = SerializationUtils.serialize(resultsArray);
 			StreamUtils.writeToSocket(outputStream, results);
-			
+
 			// Wait for glass to acknowledge receiving the data
-			if(StreamUtils.readStringFromSocket(inputStream) != "completed"){
+			if (StreamUtils.readStringFromSocket(inputStream) != "completed") {
 				Log.w(TAG, "Connection with Glass didn't terminate correctly.");
 			}
-			
+
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage());
 		}

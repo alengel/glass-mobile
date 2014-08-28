@@ -3,7 +3,7 @@ package com.brandwatch.glassmobile.application;
 import android.app.Application;
 
 import com.brandwatch.glassmobile.R;
-import com.glass.brandwatch.utils.PropertiesManager;
+import com.glass.brandwatch_shared.utils.PropertiesManager;
 
 public class GlassMobile extends Application {
 	@Override

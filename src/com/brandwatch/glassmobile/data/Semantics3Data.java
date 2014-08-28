@@ -2,7 +2,7 @@ package com.brandwatch.glassmobile.data;
 
 import android.util.Log;
 
-import com.glass.brandwatch.utils.PropertiesManager;
+import com.glass.brandwatch_shared.utils.PropertiesManager;
 import com.semantics3.api.Products;
 
 public class Semantics3Data {
@@ -19,9 +19,9 @@ public class Semantics3Data {
 
 		try {
 			String data = products.getProducts().toString();
-			
+
 			Log.i(TAG, "Measurement " + "Receiving features");
-			
+
 			return data;
 		} catch (Exception e) {
 			e.printStackTrace();
